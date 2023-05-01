@@ -1,7 +1,8 @@
-public class Main {
+import controller.AppController;
 
+public class Main {
     public static void main(String[] args) {
-        // Поехали!
+        new AppController().startApp();
     }
 }
 
