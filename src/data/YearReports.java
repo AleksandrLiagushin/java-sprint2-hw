@@ -7,7 +7,12 @@ public class YearReports {
 
     public void YearReportsLoad(String path) {
         String[] rowLine;
-        String[] rowLines = controller.FileLoader.readFileContentsOrNull(path).split("\r?\n");
+        String content = controller.FileLoader.readFileContentsOrNull(path);
+        if (content == null) {
+            System.out.println("Файл с отчетом пуст.");
+            return;
+        }
+        String[] rowLines = content.split("\r?\n");
         String[] rowPathLine = path.split("/");
         String[] rowFileName = rowPathLine[rowPathLine.length - 1].split("\\.");
         int year = Integer.parseInt(rowFileName[1]);

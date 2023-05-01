@@ -7,7 +7,12 @@ public class MonthReports {
     public ArrayList<Expense> expenses = new ArrayList<>();
     public void MonthReportsLoad(String path) {
         String[] rowLine;
-        String[] rowLines = controller.FileLoader.readFileContentsOrNull(path).split("\r?\n");
+        String content = controller.FileLoader.readFileContentsOrNull(path);
+        if (content == null) {
+            System.out.println("Файл с отчетом пуст.");
+            return;
+        }
+        String[] rowLines = content.split("\r?\n");
         String[] rowPathLine = path.split("/");
         String[] rowFileName = rowPathLine[rowPathLine.length - 1].split("\\.");
         int year = Integer.parseInt(rowFileName[1].substring(0, 4));
