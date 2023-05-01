@@ -51,11 +51,12 @@ public class AppController {
 
                 }
             } else if (command == PRINT_MON_DATA) {
-                printMonthReportsMenu();
                 if (monthReportsList != null && yearReportsList != null) {
                     year = UserMessageBuilder.getYear(userInput, yearReportsList);
-                    month = UserMessageBuilder.getMonth(userInput, monthReportsList, year);
-                    UserMessageBuilder.printMonthReport(monthReports, year, month);
+                    for (String monthFileName : monthReportsList) {
+                        month = Integer.parseInt(UserMessageBuilder.parseFileName(monthFileName).substring(4));
+                        UserMessageBuilder.printMonthReport(monthReports, year, month);
+                    }
                 } else {
                     System.out.println("Месячные отчеты не были подгружены.\n");
                 }
@@ -90,10 +91,5 @@ public class AppController {
         System.out.println("3 - Распечатать годовой отчет.");
         System.out.println("4 - Сверить отчеты.");
         System.out.println("0 - Выход.");
-    }
-
-    private static void printMonthReportsMenu() {
-        System.out.println("1 - распечатать все отчеты за выбранный год");
-        System.out.println("2 - распечатать подробный отчет за месяц");
     }
 }
