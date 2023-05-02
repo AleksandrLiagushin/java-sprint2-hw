@@ -6,7 +6,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class CheckFiles {
-
+    private static final String fileType = "csv";
+    private static final String yearInd = "y";
+    private static final String monthInd = "m";
     private static ArrayList<String> getFilesNames(String path) {
         ArrayList<String> results = new ArrayList<>();
         File[] files = new File(path).listFiles();
@@ -23,7 +25,7 @@ public class CheckFiles {
         ArrayList<String> monthReportsNames = new ArrayList<>();
         ArrayList<String> filesNames = getFilesNames(path);
         for (String fileName : filesNames) {
-            if (fileName.startsWith("m.") && fileName.endsWith(".csv")) {
+            if (fileName.startsWith(monthInd) && fileName.endsWith(fileType)) {
                 monthReportsNames.add(fileName);
             }
         }
@@ -34,7 +36,7 @@ public class CheckFiles {
         ArrayList<String> yearReportsNames = new ArrayList<>();
         ArrayList<String> filesNames = getFilesNames(path);
         for (String fileName : filesNames) {
-            if (fileName.startsWith("y.") && fileName.endsWith(".csv")) {
+            if (fileName.startsWith(yearInd) && fileName.endsWith(fileType)) {
                 yearReportsNames.add(fileName);
             }
         }
@@ -43,11 +45,11 @@ public class CheckFiles {
 
     private static boolean checkFileNameFormat (String fileName) {
         String[] splittedName = fileName.split("\\.");
-        if (splittedName[2].equals("csv")) {
-            if (splittedName[0].equals("m") && splittedName[1].length() == 6 && splittedName[1].matches("\\d+")) {
+        if (splittedName[2].equals(fileType)) {
+            if (splittedName[0].equals(monthInd) && splittedName[1].length() == 6 && splittedName[1].matches("\\d+")) {
                 return Integer.parseInt(splittedName[1].substring(4)) >= 1 &&
                         Integer.parseInt(splittedName[1].substring(4)) <= 12;
-            } else return splittedName[0].equals("y") && splittedName[1].length() == 4 && splittedName[1].matches("\\d+");
+            } else return splittedName[0].equals(yearInd) && splittedName[1].length() == 4 && splittedName[1].matches("\\d+");
         }
         return false;
     }

@@ -17,15 +17,6 @@ public class UserMessageBuilder {
         }
     }
 
-    private static void printAvaliableMonth(ArrayList<String> avaliableMonth, int year) {
-        for (String avMonth : avaliableMonth) {
-            String splitted = parseFileName(avMonth);
-            if (splitted.length() > 4 && Integer.parseInt(splitted.substring(0, 4)) == year) {
-                System.out.println(parseFileName(avMonth).substring(4));
-            }
-        }
-    }
-
     public static int getYear(Scanner scanner, ArrayList<String> yearReportsList) {
         if (yearReportsList.size() > 1) {
             System.out.println("Доступные годы для выбора:");
@@ -34,16 +25,6 @@ public class UserMessageBuilder {
             return scanner.nextInt();
         }
         return Integer.parseInt(parseFileName(yearReportsList.get(0)));
-    }
-
-    public static int getMonth(Scanner scanner, ArrayList<String> monthReportsList, int year) {
-        if (monthReportsList.size() > 1) {
-            System.out.println("Доступные месяцы для выбора:");
-            printAvaliableMonth(monthReportsList, year);
-            System.out.println("Введите месяц:");
-            return scanner.nextInt();
-        }
-        return Integer.parseInt(parseFileName(monthReportsList.get(0)).substring(4));
     }
 
     public static void printMonthReport(MonthReports monthReports, int year, int month) {
@@ -58,20 +39,18 @@ public class UserMessageBuilder {
         System.out.println("Всего затрат: " + ReportStatistics.getFullMonthExpense(monthReports, year, month) + "\n");
     }
 
-    public static void printYearReport(YearReports yearReports, ArrayList<String> monthReportsList, int year) {
+    public static void printYearReport(YearReports yearReports, int year) {
         System.out.println("Отчет за " + year);
         var profitByMonth = ReportStatistics.getMonthProfitForYear(yearReports, year);
-        for (String avMonth : monthReportsList) {
-            String splitted = UserMessageBuilder.parseFileName(avMonth);
-            if (splitted.length() > 4 && Integer.parseInt(splitted.substring(0, 4)) == year) {
-                int month = Integer.parseInt(UserMessageBuilder.parseFileName(avMonth).substring(4));
-                System.out.println("Прибыль в " + monthNamer(month) + " составила: " + profitByMonth.get(month));
-            }
+        var avMonth = profitByMonth.keySet();
+        for (int month : avMonth) {
+            String profitToPrint = String.format("Прибыль в %s составила: %d", monthNamer(month), profitByMonth.get(month));
+            System.out.println(profitToPrint);
         }
         System.out.println("Средняя выручка составила: " +
-                ReportStatistics.getYearTotalRevenue(yearReports, year) / monthReportsList.size());
+                ReportStatistics.getYearTotalRevenue(yearReports, year) / avMonth.size());
         System.out.println("Средний убыток составил: " +
-                ReportStatistics.getYearTotalExpanse(yearReports, year) / monthReportsList.size() + "\n");
+                ReportStatistics.getYearTotalExpanse(yearReports, year) / avMonth.size() + "\n");
     }
 
     public static void printComparedReports(ArrayList<DiscrepanciesReports> discrepanciesReports, int year) {
