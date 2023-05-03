@@ -15,7 +15,11 @@ public class UserMessageBuilder {
         for (String avaliableYear : avaliableYears) {
             System.out.println(parseFileName(avaliableYear));
         }
+
     }
+
+
+
 
     public static int getYear(Scanner scanner, ArrayList<String> yearReportsList) {
         if (yearReportsList.size() > 1) {

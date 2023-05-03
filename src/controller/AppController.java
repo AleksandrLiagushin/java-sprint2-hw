@@ -17,6 +17,7 @@ public class AppController {
     private static final int QUIT_APP = 0;
 
     public void startApp() {
+
         var userInput = new Scanner(System.in);
         var monthReports = new MonthReports();
         var yearReports = new YearReports();
@@ -89,6 +90,7 @@ public class AppController {
                 System.out.println("Такой команды нет. Повторите ввод:");
             }
         }
+        userInput.close();
     }
 
     private static void printMainMenu() {
